@@ -1,0 +1,21 @@
+{
+  "name": "besutkode1",
+  "version": "1.0.0",
+  "description": "Tool I used to solve BesutKode's task 1",
+  "main": "index.js",
+  "author": "Arrizal Amin",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/arrizalamin/besutkode1"
+  },
+  "bin": {
+    "besutkode1": "index.js"
+  },
+  "dependencies": {
+    "bluebird": "^3.4.6",
+    "optimist": "^0.6.1",
+    "pofile": "^1.0.2",
+    "request": "^2.75.0"
+  }
+}
