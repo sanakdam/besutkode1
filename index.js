@@ -61,7 +61,7 @@ const findBug = (files, language = 'en') => {
                 errors[file] = error.getError()
                 resolve()
             }
-            throttle(po.items.slice(4, 15), check(language)(error), 20, rslv)
+            throttle(po.items, check(language)(error), 20, rslv)
         })
     ))).then(v => {
         for (file in errors) {

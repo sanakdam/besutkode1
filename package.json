@@ -1,6 +1,6 @@
 {
   "name": "besutkode1",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "Tool I used to solve BesutKode's task 1",
   "main": "index.js",
   "author": "Arrizal Amin",
