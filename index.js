@@ -22,31 +22,36 @@ const check = language => error => text => {
     }, (err, res, body) => {
         const matches = JSON.parse(body).matches
         if (matches.length > 0) {
-            console.error(`error: ${text}`)
             matches.forEach((err, i) => {
-                console.error(red(`${i+1}. ${err.message}`))
                 error.addError(text, err.message)
             })
         }
     })
 }
 
-const throttle = (arr, callback, request, done) => {
-    const loop = i => {
-        if (i < arr.length) {
-            const item = arr[i].msgstr[0]
-            if (item == "") {
-                return loop(i+1)
+const throttle = request => {
+    const delay = 60000 / request
+    return (arr, callback, done) => {
+        const loop = i => {
+            process.stdout.clearLine();
+            process.stdout.cursorTo(0);
+            process.stdout.write(`checking ${i+1}/${arr.length} translations`)
+            if (i < arr.length) {
+                const item = arr[i].msgstr[0]
+                if (item == "") {
+                    return loop(i+1)
+                }
+                callback(item)
+                setTimeout(() => {
+                    loop(i+1)
+                }, delay)
+            } else {
+                process.stdout.write("\n")
+                done()
             }
-            callback(item)
-            setTimeout(() => {
-                loop(i+1)
-            }, 60000 / request)
-        } else {
-            done()
         }
+        loop(0)
     }
-    loop(0)
 }
 
 const findBug = (files, language = 'en') => {
@@ -61,7 +66,7 @@ const findBug = (files, language = 'en') => {
                 errors[file] = error.getError()
                 resolve()
             }
-            throttle(po.items, check(language)(error), 20, rslv)
+            throttle(20)(po.items, check(language)(error), rslv)
         })
     ))).then(v => {
         for (file in errors) {
