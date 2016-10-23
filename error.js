@@ -10,12 +10,7 @@ module.exports =  class TranslationError {
     }
 
     isIgnored(message) {
-        ignoredErrors.forEach(error => {
-            if (error === message) {
-                return true
-            }
-        })
-        return false
+        return ignoredErrors.indexOf(message.trim()) >= 0
     }
 
     addError(text, message) {

@@ -11,8 +11,11 @@ const TranslationError = require('./error')
 
 const red = text => '\033[31m' + text + '\033[0m'
 
+const isTranslated = item => (
+    (item.msgstr[0].trim() == "" || item.msgstr[0] == item.msgid)
+)
+
 const check = language => error => text => {
-    console.log(`checking : ${text}`)
     request.post('https://languagetool.org/api/v2/check', {
         form: {
             text,
@@ -37,10 +40,10 @@ const throttle = request => {
             process.stdout.cursorTo(0);
             process.stdout.write(`checking ${i+1}/${arr.length} translations`)
             if (i < arr.length) {
-                const item = arr[i].msgstr[0]
-                if (item == "") {
+                if (isTranslated(arr[i])) {
                     return loop(i+1)
                 }
+                const item = arr[i].msgstr[0]
                 callback(item)
                 setTimeout(() => {
                     loop(i+1)
