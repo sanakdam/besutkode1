@@ -40,7 +40,7 @@ const throttle = request => {
             process.stdout.cursorTo(0);
             process.stdout.write(`checking ${i+1}/${arr.length} translations`)
             if (i < arr.length) {
-                if (isTranslated(arr[i])) {
+                if (argv['skip-untranslated'] === true && isTranslated(arr[i])) {
                     return loop(i+1)
                 }
                 const item = arr[i].msgstr[0]
